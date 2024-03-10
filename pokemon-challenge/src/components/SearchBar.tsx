@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import { json } from "stream/consumers";
 
 interface Pokemon {
   name: string;
 }
 
-export const SearchBar = () => {
+interface SearchBarProps {
+  setResults: React.Dispatch<React.SetStateAction<Pokemon[]>>;
+}
+
+export const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
   const [input, setInput] = useState("");
-  const [filteredData, setFilteredData] = useState<Pokemon[]>([]);
 
   const fetchData = (value: string): void => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
@@ -17,8 +19,7 @@ export const SearchBar = () => {
         const filteredResults = data.results.filter((pokemon: Pokemon) =>
           pokemon.name.toLowerCase().startsWith(value.toLowerCase())
         );
-        setFilteredData(filteredResults);
-        console.log(filteredResults);
+        setResults(filteredResults);
       });
   };
 
@@ -26,11 +27,13 @@ export const SearchBar = () => {
     setInput(value);
     if (value.trim() !== "") {
       fetchData(value);
+    } else {
+      setResults([]);
     }
   };
 
   return (
-    <div className="flex border  rounded-full p-3 m-2 px-5 bg-white shadow-lg">
+    <div className="flex border rounded-full p-3 m-2 px-5 bg-white shadow-lg">
       <div className="pt-2 mr-3">
         <FaSearch className="text-rose-500" id="search-icon" />
       </div>
