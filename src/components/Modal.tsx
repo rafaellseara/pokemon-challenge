@@ -6,6 +6,7 @@ interface ModalProps {
   modalOpen: boolean;
   setModalOpen: (value: boolean) => void;
   pokemon: string;
+  currentPokemonId?: number
 }
 
 const dropIn = {
@@ -34,42 +35,39 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
   const [currentPokemonId, setCurrentPokemonId] = useState<number | null>(null);
   const [pokemonLocationData, setPokemonLocationData] = useState<any>(null);
 
-  const getLocation = useCallback(() => {
+  const getLocation = useCallback(async () => {
     if (pokemonData && pokemonData.location_area_encounters) {
-      fetch(pokemonData.location_area_encounters)
-        .then((response) => response.json())
-        .then((data) => setPokemonLocationData(data))
-        .catch((error) =>
-          console.error("Error fetching Pokemon location data: ", error)
-        );
+      try {
+        const response = await fetch(pokemonData.location_area_encounters);
+        const data = await response.json();
+        setPokemonLocationData(data);
+      } catch (error) {
+        console.error("Error fetching Pokemon location data: ", error);
+      }
     }
   }, [pokemonData]);
 
   useEffect(() => {
-    if (modalOpen && !currentPokemonId) {
-      // Fetch data for the initial Pokemon
-      fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-        .then((response) => response.json())
-        .then((data) => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (modalOpen && !currentPokemonId) {
+          response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+        } else if (modalOpen && currentPokemonId) {
+          response = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentPokemonId}`);
+        }
+        if (response) {
+          const data = await response.json();
           setPokemonData(data);
           setCurrentPokemonId(data.id);
           getLocation();
-        })
-        .catch((error) =>
-          console.error("Error fetching Pokemon data: ", error)
-        );
-    } else if (modalOpen && currentPokemonId) {
-      // Fetch data when currentPokemonId changes
-      fetch(`https://pokeapi.co/api/v2/pokemon/${currentPokemonId}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setPokemonData(data);
-          getLocation();
-        })
-        .catch((error) =>
-          console.error("Error fetching Pokemon data: ", error)
-        );
-    }
+        }
+      } catch (error) {
+        console.error("Error fetching Pokemon data: ", error);
+      }
+    };
+
+    fetchData();
   }, [modalOpen, currentPokemonId, pokemon, getLocation]);
 
   const handleNextButton = (): void => {
@@ -100,7 +98,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-white max-w-500 w-[600px] h-[420px] mx-auto flex justify-center p-4 rounded-md relative"
+            className="bg-gray-100 max-w-500 w-[600px] h-[420px] mx-auto flex justify-center p-4 rounded-md relative"
             variants={dropIn}
             initial="hidden"
             animate="visible"
@@ -129,7 +127,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
                   <div className="flex flex-row justify-between space-x-16">
                     <div className="flex flex-col p-1">
                       <img
-                        className="w-32 h-32 border-2 rounded border-rose-200 bg-gray-200"
+                        className="w-32 h-32 border-2 rounded border-rose-200 bg-white shadow-sm"
                         src={pokemonData.sprites.front_default}
                         alt={pokemonData.name}
                       />
@@ -150,7 +148,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Location:</h3>
-                      <div className=" bg-rose-200 border-2 border-gray-200 flex-col rounded shadow-sm flex w-72 h-48 overflow-y-scroll">
+                      <div className="bg-white border-2 border-rose-200 shadow flex-col rounded flex w-72 h-48 overflow-y-scroll">
                         <ul>
                           {pokemonLocationData ? (
                             pokemonLocationData.map(
