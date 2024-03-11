@@ -35,7 +35,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
   return (
     <div className="flex border rounded-full p-3 m-2 px-5 bg-white shadow-lg">
       <div className="pt-2 mr-3">
-        <FaSearch className="text-rose-500" id="search-icon" />
+        <FaSearch className="text-orange-500" id="search-icon" />
       </div>
       <div>
         <input

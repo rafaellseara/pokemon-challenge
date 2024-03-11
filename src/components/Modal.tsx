@@ -121,7 +121,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
             <div>
               {pokemonData ? (
                 <div>
-                  <h2 className="flex justify-center items-center text-2xl font-semibold mb-4 text-rose-600">
+                  <h2 className="flex justify-center items-center text-2xl font-semibold mb-4 text-orange-500">
                     {pokemonData.name.replace(/\b\w/g, (char: string) =>
                       char.toUpperCase()
                     )}
@@ -129,7 +129,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
                   <div className="flex flex-row justify-between space-x-16">
                     <div className="flex flex-col p-1">
                       <img
-                        className="w-32 h-32 border-2 rounded border-rose-200 bg-gray-200"
+                        className="w-32 h-32 border-2 rounded border-orange-200 bg-gray-200"
                         src={pokemonData.sprites.front_default}
                         alt={pokemonData.name}
                       />
@@ -150,7 +150,7 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold mb-2">Location:</h3>
-                      <div className=" bg-rose-200 border-2 border-gray-200 flex-col rounded shadow-sm flex w-72 h-48 overflow-y-scroll">
+                      <div className=" bg-orange-200 border-2 border-gray-200 flex-col rounded shadow-sm flex w-72 h-48 overflow-y-scroll">
                         <ul>
                           {pokemonLocationData ? (
                             pokemonLocationData.map(
@@ -167,13 +167,13 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, setModalOpen, pokemon }) => {
                       </div>
                       <div className="flex items-end mt-4">
                         <button
-                          className="mr-2 bg-rose-200 hover:bg-rose-600 text-white font-bold py-2 px-4 rounded-full"
+                          className="mr-2 bg-orange-200 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-full"
                           onClick={() => handleBeforeButton()}
                         >
                           Before
                         </button>
                         <button
-                          className="ml-2 bg-rose-200 hover:bg-rose-600 text-white font-bold py-2 px-4 rounded-full"
+                          className="ml-2 bg-orange-200 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded-full"
                           onClick={() => handleNextButton()}
                         >
                           Next
