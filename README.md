@@ -1,3 +1,5 @@
+![image](https://github.com/rafaellseara/pokemon-challenge/assets/88705264/db5402c8-609a-463a-b0c4-00850fba27ec)
+
 # Pokemon Challenge
 
 Welcome to the Pokémon Search Website! This web application allows you to search for information about your favorite Pokémon. Simply type the name of the Pokémon you're interested in into the search bar, and the website will fetch data from an external API to provide you with details about that Pokémon.
@@ -33,4 +35,4 @@ To get started with the Todo list App, follow these steps:
 
 ## External API
 
-This project utilizes an external API to retrieve data about Pokémon. The API used for this project is [insert API name here]. It provides a wide range of information about Pokémon, including their stats, abilities, and evolutions.
+This project utilizes an external API to retrieve data about Pokémon. The API used for this project is [pokeapi](https://pokeapi.co/). It provides a wide range of information about Pokémon, including their stats, abilities, and evolutions.
